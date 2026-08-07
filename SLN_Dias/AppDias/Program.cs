@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace GestaoTarefas;
 
@@ -32,5 +33,23 @@ class Program
         Console.WriteLine($"Início: {tarefa.DataInicio:dd/MM/yyyy}");
         Console.WriteLine($"Término: {tarefa.DataFim:dd/MM/yyyy}");
         Console.WriteLine($"Duração: {tarefa.ObterQuantidadeDias()} dias");
+    }
+    private static DateTime LerDataValida(string mensagemPrompt)
+    {
+        DateTime dataResultado;
+        string[] formatosAceitos = { "dd/MM/yyyy", "d/M/yyyy" };
+
+        while (true)
+        {
+            Console.Write(mensagemPrompt);
+            string entrada = Console.ReadLine() ?? "";
+
+            if (DateTime.TryParseExact(entrada, formatosAceitos, CultureInfo.InvariantCulture, DateTimeStyles.None, out dataResultado))
+            {
+                return dataResultado;
+            }
+
+            Console.WriteLine("❌ Data em formato inválido! Por favor utilize o formato dd/mm/aaaa (Ex: 25/12/2024).\n");
+        }
     }
 }
